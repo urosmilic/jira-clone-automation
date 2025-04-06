@@ -2,6 +2,7 @@ package tests;
 
 import com.microsoft.playwright.*;
 import common.PageContainer;
+import lombok.Getter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -11,6 +12,7 @@ public class BaseTest {
     Playwright playwright;
     Browser browser;
     BrowserContext browserContext;
+    @Getter
     Page page;
     PageContainer pageContainer;
 
