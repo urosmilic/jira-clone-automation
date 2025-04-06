@@ -19,7 +19,7 @@ public class BaseTest {
     @BeforeMethod
     public void playwrightSetup() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setArgs(List.of("--start-maximized")));
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true).setArgs(List.of("--start-maximized")));
         browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(null));
         page = browserContext.newPage();
         pageContainer = new PageContainer(page);
