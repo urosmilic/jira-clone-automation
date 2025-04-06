@@ -1,10 +1,15 @@
-name: Playwright Tests
+name: Test trigger with allure reporting
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      groups:
+        description: 'TestNG groups to run'
+        required: false
+        default: 'regression'
+
+  schedule:
+    - cron: '0 12 * * 1'
 
 jobs:
   test:
@@ -34,7 +39,7 @@ jobs:
         run: mvn install -DskipTests
 
       - name: Run tests
-        run: mvn clean test
+        run: mvn clean test -Dgroups=${{ github.event.inputs.groups || 'regression' }}
 
       - name: Generate Allure Report
         if: always()
@@ -46,11 +51,10 @@ jobs:
         with:
           name: allure-report
           path: target/site/allure-maven-plugin
-          
+
       - name: Deploy Allure report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./target/site/allure-maven-plugin
-          destination_dir: latest
