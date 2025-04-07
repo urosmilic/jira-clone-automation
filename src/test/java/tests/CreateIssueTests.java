@@ -19,7 +19,7 @@ public class CreateIssueTests extends BaseTest {
         page.navigate("https://jira.trungk18.com/project/board");
     }
 
-    @Test
+    @Test(groups = {"regression", "smoke"})
     public void createBug() {
         Issue issue = Issue.builder()
                 .type(BUG)
@@ -43,7 +43,7 @@ public class CreateIssueTests extends BaseTest {
         assertCreatedIssueAttributes(issue);
     }
 
-    @Test
+    @Test(groups = {"regression", "smoke"})
     public void createTask() {
         Issue issue = Issue.builder()
                 .type(TASK)
@@ -67,7 +67,7 @@ public class CreateIssueTests extends BaseTest {
         assertCreatedIssueAttributes(issue);
     }
 
-    @Test
+    @Test(groups = {"regression", "smoke"})
     public void createStory() {
         Issue issue = Issue.builder()
                 .type(STORY)
