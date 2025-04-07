@@ -14,7 +14,7 @@ import static utils.DateTimeHelper.getCurrentDateTimeString;
 
 public class CreateIssueTests extends BaseTest {
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void navigateToWebsite() {
         page.navigate("https://jira.trungk18.com/project/board");
     }

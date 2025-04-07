@@ -16,7 +16,7 @@ public class BaseTest {
     Page page;
     PageContainer pageContainer;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void playwrightSetup() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true).setArgs(List.of("--start-maximized")));
@@ -25,7 +25,7 @@ public class BaseTest {
         pageContainer = new PageContainer(page);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void closePlaywright() {
         browser.close();
         playwright.close();
