@@ -1,4 +1,4 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","3261","createBug","Jira Clone Suite","Mon Apr 07 09:46:42 UTC 2025","passed","Mon Apr 07 09:46:45 UTC 2025","tests.CreateIssueTests","Jira Clone Tests","tests.CreateIssueTests","createBug"
-"","3001","createStory","Jira Clone Suite","Mon Apr 07 09:46:47 UTC 2025","passed","Mon Apr 07 09:46:50 UTC 2025","tests.CreateIssueTests","Jira Clone Tests","tests.CreateIssueTests","createStory"
-"","3035","createTask","Jira Clone Suite","Mon Apr 07 09:46:51 UTC 2025","passed","Mon Apr 07 09:46:54 UTC 2025","tests.CreateIssueTests","Jira Clone Tests","tests.CreateIssueTests","createTask"
+"","3520","createBug","Jira Clone Suite","Mon Apr 07 12:27:38 UTC 2025","passed","Mon Apr 07 12:27:41 UTC 2025","tests.CreateIssueTests","Jira Clone Tests","tests.CreateIssueTests","createBug"
+"","3274","createTask","Jira Clone Suite","Mon Apr 07 12:27:47 UTC 2025","passed","Mon Apr 07 12:27:50 UTC 2025","tests.CreateIssueTests","Jira Clone Tests","tests.CreateIssueTests","createTask"
+"","3161","createStory","Jira Clone Suite","Mon Apr 07 12:27:42 UTC 2025","passed","Mon Apr 07 12:27:46 UTC 2025","tests.CreateIssueTests","Jira Clone Tests","tests.CreateIssueTests","createStory"
