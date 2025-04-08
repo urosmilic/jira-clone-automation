@@ -1,12 +1,10 @@
 package pages.dashboard;
 
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import lombok.Getter;
 import pages.BasePage;
 
 public class DashboardPage extends BasePage {
-    private final Locator addIssueButton;
     @Getter
     private FilterPagelet filterPagelet;
     @Getter
@@ -16,12 +14,13 @@ public class DashboardPage extends BasePage {
         super(page);
         filterPagelet = new FilterPagelet(page);
         boardPagelet = new BoardPagelet(page);
-        this.addIssueButton = page.locator("i.anticon-plus");
     }
 
     public void createIssue() {
-        addIssueButton.click();
+        page.locator("i.anticon-plus").click();
     }
-
+    public void openSearchPage() {
+        page.locator("i.anticon-search").click();
+    }
 
 }

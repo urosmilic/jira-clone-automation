@@ -1,0 +1,95 @@
+package tests;
+
+import com.microsoft.playwright.assertions.LocatorAssertions;
+import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import listeners.TestListener;
+import models.Issue;
+import org.assertj.core.api.Assertions;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.util.List;
+
+import static common.IssueType.BUG;
+import static common.IssueType.STORY;
+import static common.Priority.HIGHEST;
+import static common.Priority.LOW;
+import static utils.DateTimeHelper.getCurrentDateTimeString;
+
+@Listeners({TestListener.class})
+public class IssueTests extends BaseTest {
+    @Test(groups = {"regression", "smoke"})
+    public void deleteIssue() {
+        Issue issue = createIssue();
+        pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
+        pageContainer.issuePage.deleteIssue();
+        PlaywrightAssertions.assertThat(pageContainer.dashboardPage.getBoardPagelet().getTicket(issue.getSummary())).isHidden();
+    }
+
+    @Test(groups = {"regression"})
+    public void changeIssueType() {
+        Issue issue = createIssue();
+        pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
+        pageContainer.issuePage.changeType(BUG.toString());
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getType()).containsText(BUG.toString());
+    }
+
+    @Test(groups = {"regression"})
+    public void changeIssueStatus() {
+        Issue issue = createIssue();
+        pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
+        pageContainer.issuePage.changeStatus("In Progress");
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getStatus())
+                .hasText("In Progress", new LocatorAssertions.HasTextOptions().setIgnoreCase(true));
+    }
+
+    @Test(groups = {"regression"})
+    public void changeIssuePriority() {
+        Issue issue = createIssue();
+        pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
+        pageContainer.issuePage.changePriority(LOW.toString());
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getPriority())
+                .hasText(LOW.toString(), new LocatorAssertions.HasTextOptions().setIgnoreCase(true));
+    }
+
+    @Test(groups = {"regression"})
+    public void changeIssueAssignee() {
+        Issue issue = createIssue();
+        pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
+        pageContainer.issuePage.removeAllAssignees();
+        pageContainer.issuePage.addAssignee("Iron Man");
+        Assertions.assertThat(pageContainer.issuePage.getAssignees().allTextContents()
+                .stream().map(String::trim).toList()).isEqualTo(List.of("Iron Man"));
+    }
+
+    @Test(groups = {"regression", "smoke"})
+    public void addComment() {
+        Issue issue = createIssue();
+        pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
+        pageContainer.issuePage.insertComment("First comment, automation test!");
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getComments().last()).containsText("First comment, automation test!");
+        pageContainer.issuePage.insertComment("Second comment, automation test!");
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getComments().last()).containsText("Second comment, automation test!");
+    }
+
+    public Issue createIssue() {
+        Issue issue = Issue.builder()
+                .type(STORY)
+                .summary(String.format("AQA-%s - Short summary text!", getCurrentDateTimeString()))
+                .description("AQA description for the test!")
+                .priority(HIGHEST)
+                .reporter("Spider Man")
+                .assignees(List.of("Spider Man"))
+                .build();
+
+        pageContainer.dashboardPage.createIssue();
+        pageContainer.createIssuePage.selectIssueType(String.valueOf(issue.getType()));
+        pageContainer.createIssuePage.choosePriority(String.valueOf(issue.getPriority()));
+        pageContainer.createIssuePage.enterSummary(issue.getSummary());
+        pageContainer.createIssuePage.enterDescription(issue.getDescription());
+        pageContainer.createIssuePage.selectReporter(issue.getReporter());
+        pageContainer.createIssuePage.addAssignees(issue.getAssignees());
+        pageContainer.createIssuePage.createIssue();
+        return issue;
+    }
+}

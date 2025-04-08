@@ -23,10 +23,13 @@ public class BaseTest {
         browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(null));
         page = browserContext.newPage();
         pageContainer = new PageContainer(page);
+        page.navigate("https://jira.trungk18.com/project/board");
     }
 
     @AfterMethod(alwaysRun = true)
     public void closePlaywright() {
+        page.close();
+        browserContext.close();
         browser.close();
         playwright.close();
     }

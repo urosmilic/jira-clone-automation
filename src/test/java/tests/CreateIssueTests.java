@@ -1,9 +1,10 @@
 package tests;
 
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import listeners.TestListener;
 import models.Issue;
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -12,13 +13,8 @@ import static common.IssueType.*;
 import static common.Priority.*;
 import static utils.DateTimeHelper.getCurrentDateTimeString;
 
+@Listeners({TestListener.class})
 public class CreateIssueTests extends BaseTest {
-
-    @BeforeMethod(alwaysRun = true)
-    public void navigateToWebsite() {
-        page.navigate("https://jira.trungk18.com/project/board");
-    }
-
     @Test(groups = {"regression", "smoke"})
     public void createBug() {
         Issue issue = Issue.builder()
@@ -97,12 +93,13 @@ public class CreateIssueTests extends BaseTest {
     }
 
     public void assertCreatedIssueAttributes(Issue issue) {
-        Assertions.assertThat(pageContainer.issuePage.getType()).isEqualTo(String.valueOf(issue.getType()));
-        Assertions.assertThat(pageContainer.issuePage.getSummary()).isEqualTo(issue.getSummary());
-        Assertions.assertThat(pageContainer.issuePage.getDescription()).isEqualTo(issue.getDescription());
-        Assertions.assertThat(pageContainer.issuePage.getPriority()).isEqualTo(String.valueOf(issue.getPriority()));
-        Assertions.assertThat(pageContainer.issuePage.getStatus()).isEqualTo("Backlog");
-        Assertions.assertThat(pageContainer.issuePage.getReporter()).isEqualTo(issue.getReporter());
-        Assertions.assertThat(pageContainer.issuePage.getAssignees()).isEqualTo(issue.getAssignees());
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getType()).containsText(String.valueOf(issue.getType()));
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getSummary()).hasValue(issue.getSummary());
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getDescription()).hasText(issue.getDescription());
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getPriority()).hasText(String.valueOf(issue.getPriority()));
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getStatus()).hasText("Backlog");
+        PlaywrightAssertions.assertThat(pageContainer.issuePage.getReporter()).hasText(issue.getReporter());
+        Assertions.assertThat(pageContainer.issuePage.getAssignees().allTextContents()
+                .stream().map(String::trim).toList()).isEqualTo(issue.getAssignees());
     }
 }

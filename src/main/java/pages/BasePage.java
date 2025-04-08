@@ -1,9 +1,10 @@
 package pages;
 
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Mouse;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.BoundingBox;
 import com.microsoft.playwright.options.LoadState;
-import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class BasePage {
     protected Page page;
@@ -12,23 +13,17 @@ public class BasePage {
         this.page = page;
     }
 
-    public void waitForLocator(String selector, WaitForSelectorState state, int timeout) {
-        page.locator(selector).waitFor(new Locator.WaitForOptions().setState(state).setTimeout(timeout));
-    }
-
-    public void waitForLocator(String selector) {
-        page.locator(selector).waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
-    }
-
-    public void waitForPageLoad() {
-        page.waitForLoadState(LoadState.LOAD);
-    }
-
-    public void waitForDomContentLoad() {
-        page.waitForLoadState(LoadState.DOMCONTENTLOADED);
-    }
-
     public void waitForNetworkIdle() {
         page.waitForLoadState(LoadState.NETWORKIDLE);
+    }
+
+    public void dragAndDrop(Locator source, Locator destination) {
+        source.hover();
+        page.mouse().down();
+        BoundingBox sourceBox = source.boundingBox();
+        page.mouse().move(sourceBox.x + 10, sourceBox.y + 10, new Mouse.MoveOptions().setSteps(5));
+        BoundingBox targetBox = destination.boundingBox();
+        page.mouse().move(targetBox.x + 10, targetBox.y + 10, new Mouse.MoveOptions().setSteps(10));
+        page.mouse().up();
     }
 }
