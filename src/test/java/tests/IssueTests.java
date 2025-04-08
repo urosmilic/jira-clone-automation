@@ -2,10 +2,8 @@ package tests;
 
 import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
-import listeners.TestListener;
 import models.Issue;
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -16,7 +14,6 @@ import static common.Priority.HIGHEST;
 import static common.Priority.LOW;
 import static utils.DateTimeHelper.getCurrentDateTimeString;
 
-@Listeners({TestListener.class})
 public class IssueTests extends BaseTest {
     @Test(groups = {"regression", "smoke"})
     public void deleteIssue() {

@@ -5,6 +5,7 @@ import common.PageContainer;
 import lombok.Getter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import utils.ConfigReader;
 
 import java.util.List;
 
@@ -15,15 +16,32 @@ public class BaseTest {
     @Getter
     Page page;
     PageContainer pageContainer;
+    ConfigReader configReader = new ConfigReader();
 
     @BeforeMethod(alwaysRun = true)
     public void playwrightSetup() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true).setArgs(List.of("--start-maximized")));
-        browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(null));
+        BrowserType.LaunchOptions launchOptions = new BrowserType.LaunchOptions();
+        Browser.NewContextOptions contextOptions = new Browser.NewContextOptions();
+        launchOptions.setArgs(List.of("--start-maximized"));
+        if (Boolean.parseBoolean(configReader.getProperty("browserHeadless"))) {
+            launchOptions.setHeadless(true);
+            contextOptions.setViewportSize(1920, 1080);
+        } else {
+            contextOptions.setViewportSize(null);
+            launchOptions.setHeadless(false);
+        }
+        switch (configReader.getProperty("browser")) {
+            case "chrome" -> browser = playwright.chromium().launch(launchOptions.setChannel("chrome"));
+            case "edge" -> browser = playwright.chromium().launch(launchOptions.setChannel("msedge"));
+            case "firefox" -> browser = playwright.firefox().launch(launchOptions);
+            case "webkit" -> browser = playwright.chromium().launch(launchOptions);
+            default -> throw new IllegalArgumentException("Wrong browser type choosed!");
+        }
+        browserContext = browser.newContext(contextOptions);
         page = browserContext.newPage();
         pageContainer = new PageContainer(page);
-        page.navigate("https://jira.trungk18.com/project/board");
+        page.navigate(configReader.getProperty("baseUrl"));
     }
 
     @AfterMethod(alwaysRun = true)

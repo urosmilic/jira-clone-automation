@@ -2,11 +2,8 @@ package tests;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
-import listeners.TestListener;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners({TestListener.class})
 public class SearchTests extends BaseTest{
     @Test(groups = {"regression"})
     public void searchForTask() {

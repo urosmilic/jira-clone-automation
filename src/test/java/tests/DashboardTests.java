@@ -1,10 +1,8 @@
 package tests;
 
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
-import listeners.TestListener;
 import models.Issue;
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
 import static common.IssueType.BUG;
 import static common.Priority.*;
 import static utils.DateTimeHelper.getCurrentDateTimeString;
-@Listeners({TestListener.class})
+
 public class DashboardTests extends BaseTest {
     @Test(groups = {"regression", "smoke"})
     public void changeIssueStatusAndVerifyPositionOnBoard() {
