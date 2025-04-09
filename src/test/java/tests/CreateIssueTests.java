@@ -1,6 +1,10 @@
 package tests;
 
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import models.Issue;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
@@ -13,6 +17,9 @@ import static utils.DateTimeHelper.getCurrentDateTimeString;
 
 public class CreateIssueTests extends BaseTest {
     @Test(groups = {"regression", "smoke"})
+    @Description("Verify that user can create a bug")
+    @Feature("Issue creation")
+    @Severity(SeverityLevel.CRITICAL)
     public void createBug() {
         Issue issue = Issue.builder()
                 .type(BUG)
@@ -37,6 +44,9 @@ public class CreateIssueTests extends BaseTest {
     }
 
     @Test(groups = {"regression", "smoke"})
+    @Description("Verify that user can create a task")
+    @Feature("Issue creation")
+    @Severity(SeverityLevel.CRITICAL)
     public void createTask() {
         Issue issue = Issue.builder()
                 .type(TASK)
@@ -61,6 +71,9 @@ public class CreateIssueTests extends BaseTest {
     }
 
     @Test(groups = {"regression", "smoke"})
+    @Description("Verify that user can create a story")
+    @Feature("Issue creation")
+    @Severity(SeverityLevel.CRITICAL)
     public void createStory() {
         Issue issue = Issue.builder()
                 .type(STORY)

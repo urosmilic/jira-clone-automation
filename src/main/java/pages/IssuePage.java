@@ -2,6 +2,7 @@ package pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.AriaRole;
 
 public class IssuePage extends BasePage {
@@ -54,13 +55,19 @@ public class IssuePage extends BasePage {
     }
 
     public void addAssignee(String assignee) {
+        int initialNumberOfAssignees = getAssignees().count();
         page.locator("a").getByText("Add Assignee").click();
         page.locator(DROPDOWN_OPTION).getByText(assignee).click();
-        page.waitForCondition(() -> getAssignees().count() > 0);
+        page.waitForCondition(() -> getAssignees().count() > initialNumberOfAssignees);
     }
 
     public void removeAllAssignees() {
-        page.waitForCondition(() -> getAssignees().count() > 0);
+        try {
+            page.waitForCondition(() -> getAssignees().count() > 0, new Page.WaitForConditionOptions().setTimeout(5000));
+        } catch (PlaywrightException playwrightException) {
+            log.info("There are no assignees on this issue.");
+        }
+
         if (page.locator("issue-assignees button").count() > 0) {
             int initialCount = getAssignees().count();
             for (int i = 0; i <= getAssignees().count(); i++) {
@@ -68,8 +75,8 @@ public class IssuePage extends BasePage {
                 int finalInitialCount = initialCount - i;
                 page.waitForCondition(() -> getAssignees().count() < finalInitialCount);
             }
+            page.waitForCondition(() -> getAssignees().count() == 0);
         }
-        page.waitForCondition(() -> getAssignees().count() == 0);
     }
 
     public void changePriority(String priority) {

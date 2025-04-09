@@ -2,6 +2,10 @@ package tests;
 
 import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import models.Issue;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
@@ -16,6 +20,9 @@ import static utils.DateTimeHelper.getCurrentDateTimeString;
 
 public class IssueTests extends BaseTest {
     @Test(groups = {"regression", "smoke"})
+    @Description("Verify that user can delete an issue")
+    @Feature("Edit/Delete issue")
+    @Severity(SeverityLevel.CRITICAL)
     public void deleteIssue() {
         Issue issue = createIssue();
         pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
@@ -24,6 +31,9 @@ public class IssueTests extends BaseTest {
     }
 
     @Test(groups = {"regression"})
+    @Description("Verify that user can change issue type")
+    @Feature("Edit/Delete issue")
+    @Severity(SeverityLevel.NORMAL)
     public void changeIssueType() {
         Issue issue = createIssue();
         pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
@@ -31,7 +41,10 @@ public class IssueTests extends BaseTest {
         PlaywrightAssertions.assertThat(pageContainer.issuePage.getType()).containsText(BUG.toString());
     }
 
-    @Test(groups = {"regression"})
+    @Test(groups = {"regression", "smoke"})
+    @Description("Verify that user can change issue status")
+    @Feature("Edit/Delete issue")
+    @Severity(SeverityLevel.CRITICAL)
     public void changeIssueStatus() {
         Issue issue = createIssue();
         pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
@@ -41,6 +54,9 @@ public class IssueTests extends BaseTest {
     }
 
     @Test(groups = {"regression"})
+    @Description("Verify that user can change issue priority")
+    @Feature("Edit/Delete issue")
+    @Severity(SeverityLevel.NORMAL)
     public void changeIssuePriority() {
         Issue issue = createIssue();
         pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
@@ -50,6 +66,9 @@ public class IssueTests extends BaseTest {
     }
 
     @Test(groups = {"regression"})
+    @Description("Verify that user can change issue assignee")
+    @Feature("Edit/Delete issue")
+    @Severity(SeverityLevel.NORMAL)
     public void changeIssueAssignee() {
         Issue issue = createIssue();
         pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());
@@ -60,6 +79,9 @@ public class IssueTests extends BaseTest {
     }
 
     @Test(groups = {"regression", "smoke"})
+    @Description("Verify that user can add a comment on the issue")
+    @Feature("Edit/Delete issue")
+    @Severity(SeverityLevel.NORMAL)
     public void addComment() {
         Issue issue = createIssue();
         pageContainer.dashboardPage.getBoardPagelet().openTicket(issue.getSummary());

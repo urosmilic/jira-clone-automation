@@ -1,6 +1,10 @@
 package tests;
 
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import models.Issue;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
@@ -13,6 +17,9 @@ import static utils.DateTimeHelper.getCurrentDateTimeString;
 
 public class DashboardTests extends BaseTest {
     @Test(groups = {"regression", "smoke"})
+    @Description("Change issue status and verify issue position on the board")
+    @Feature("Dashboard")
+    @Severity(SeverityLevel.CRITICAL)
     public void changeIssueStatusAndVerifyPositionOnBoard() {
         Issue issue = createIssue();
 
@@ -39,6 +46,9 @@ public class DashboardTests extends BaseTest {
     }
 
     @Test(groups = {"regression"})
+    @Description("Verify that user can change issue status using drag and drop on the board")
+    @Feature("Dashboard")
+    @Severity(SeverityLevel.NORMAL)
     public void changeIssueStatusByDragAndDrop() {
         Issue issue = createIssue();
 
@@ -59,6 +69,9 @@ public class DashboardTests extends BaseTest {
     }
 
     @Test(groups = {"regression"})
+    @Description("Verify that user can filter the issues on the board with searching")
+    @Feature("Dashboard")
+    @Severity(SeverityLevel.NORMAL)
     public void filteringByIssueSummary() {
         pageContainer.dashboardPage.getFilterPagelet().filterIssuesByKeyword("Angular");
         Assertions.assertThat(pageContainer.dashboardPage.getBoardPagelet().getTicket().count())

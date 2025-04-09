@@ -5,10 +5,12 @@ import com.microsoft.playwright.Mouse;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.BoundingBox;
 import com.microsoft.playwright.options.LoadState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BasePage {
     protected Page page;
-
+    protected static final Logger log = LoggerFactory.getLogger(BasePage.class);
     public BasePage(Page page) {
         this.page = page;
     }
