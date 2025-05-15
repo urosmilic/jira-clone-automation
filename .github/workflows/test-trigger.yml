@@ -8,8 +8,8 @@ on:
         required: false
         default: 'regression'
 
-  schedule:
-    - cron: '0 10 * * *'  # 12:00 CET
+  #schedule:
+  #  - cron: '0 10 * * *'  # 12:00 CET
 
   push:
     branches:
